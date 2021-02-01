@@ -16,15 +16,6 @@ const Index = (props: any) => {
 
     const [isAdmin, setIsAdmin] = useState(false);
 
-    const getIp = async () => {
-        const response = await fetch('http://ip-api.com/json/?fields=query');
-        const { query } = await response.json();
-
-        if (query === ADMIN_IP) {
-            setIsAdmin(true);
-        }
-    }
-
     const handleDeleteAll = async () => {
         await api.delete('');
     }
@@ -32,7 +23,9 @@ const Index = (props: any) => {
     useEffect(() => {
         setUsers(props.data);
 
-        getIp();
+        if (props.ip === ADMIN_IP) {
+            setIsAdmin(true);
+        }
     }, [])
 
     return (
@@ -85,9 +78,13 @@ export async function getStaticProps() {
     const response = api.get('');
     const data = (await response).data.data;
 
+    const ipResponse = await fetch('http://ip-api.com/json/?fields=query');
+    const { query } = await ipResponse.json();
+
     return {
         props: {
-            data
+            data,
+            ip: query
         },
         revalidate: 10
     }
