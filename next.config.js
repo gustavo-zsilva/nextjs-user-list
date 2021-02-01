@@ -1,5 +1,5 @@
 module.exports = {
     env: {
-        ADMIN_IP: '191.5.217.34',
+        ADMIN_IP: '177.53.66.140',
     }
 }

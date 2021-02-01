@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 import { Button } from '../styles/index';
+import slideSide from '../animations/slideSide';
+
+interface CardProps {
+    timing?: number;
+}
 
 export const Container = styled.div`
     display: flex;
@@ -16,6 +21,9 @@ export const Container = styled.div`
     box-shadow: 0px 0px 8px 1px rgba(0,0,0, 0.1);
     transition: .2s;
     cursor: pointer;
+
+    animation: ${slideSide} .6s ease-out;
+    animation-delay: ${(props: CardProps) => props.timing};
 
     &:hover {
         transform: scale(1.04);

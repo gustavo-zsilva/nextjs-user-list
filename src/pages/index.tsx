@@ -8,7 +8,6 @@ import Link from 'next/link';
 import Head from 'next/head';
 
 import api from '../services/api';
-const ADMIN_IP = process.env.ADMIN_IP;
 
 const Index = (props: any) => {
 
@@ -23,7 +22,7 @@ const Index = (props: any) => {
     useEffect(() => {
         setUsers(props.data);
 
-        if (props.ip === ADMIN_IP) {
+        if (props.ip.query === props.ip.ADMIN_IP) {
             setIsAdmin(true);
         }
     }, [])
@@ -53,6 +52,7 @@ const Index = (props: any) => {
                                     name={user.name}
                                     date={user.date}
                                     id={user['_id']}
+                                    timing={index}
                                 />
                             )
                         })
@@ -73,7 +73,7 @@ const Index = (props: any) => {
     );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
 
     const response = api.get('');
     const data = (await response).data.data;
@@ -81,12 +81,13 @@ export async function getStaticProps() {
     const ipResponse = await fetch('http://ip-api.com/json/?fields=query');
     const { query } = await ipResponse.json();
 
+    const ADMIN_IP = process.env.ADMIN_IP;
+
     return {
         props: {
             data,
-            ip: query
-        },
-        revalidate: 10
+            ip: {query, ADMIN_IP}
+        }
     }
 }
 
