@@ -2,7 +2,9 @@
   "/_document": "pages/_document.js",
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
   "/": "pages/index.js",
-  "/api": "pages/api.js"
+  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
+  "/api": "pages/api.js",
+  "/create": "pages/create.js",
+  "/api/[id]": "pages/api/[id].js"
 }
