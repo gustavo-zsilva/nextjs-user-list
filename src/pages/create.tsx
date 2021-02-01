@@ -10,7 +10,7 @@ import Header from '../components/Header';
 
 import api from '../services/api';
 
-const Create = () => {
+const Create = ({ userData }) => {
 
     const router = useRouter();
 
@@ -19,9 +19,6 @@ const Create = () => {
     const handleFormSubmit = async (e) => {
 
         e.preventDefault();
-
-        const response = await fetch('http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,isp,proxy,query');
-        const userData = await response.json();
 
         await api.post('', {
             name,
@@ -58,6 +55,17 @@ const Create = () => {
             <GlobalStyles />
         </Container>
     );
+}
+
+export async function getStaticProps() {
+    const response = await fetch('http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,isp,proxy,query');
+    const userData = await response.json();
+
+    return {
+        props: {
+            userData,
+        }
+    }
 }
 
 export default Create;
