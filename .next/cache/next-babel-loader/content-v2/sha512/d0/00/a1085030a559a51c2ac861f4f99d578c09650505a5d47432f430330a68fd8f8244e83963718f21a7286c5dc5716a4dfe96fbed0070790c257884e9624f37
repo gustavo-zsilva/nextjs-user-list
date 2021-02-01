@@ -1,0 +1,1 @@
+{"ast":null,"code":"import styled from 'styled-components';\nexport const Container = styled.header`\n    display: flex;\n    border-bottom: 1px solid gray;\n    flex-direction: row;\n    justify-content: space-between;\n    margin-bottom: 2rem;\n`;\nexport const Title = styled.h1`\n    cursor: pointer;\n`;","map":null,"metadata":{},"sourceType":"module"}
