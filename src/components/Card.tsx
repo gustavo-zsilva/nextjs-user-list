@@ -1,6 +1,6 @@
 import { Container, Text, Date, DeleteButton, Row } from '../styles/card';
 
-import api from '../services/api';
+import axios from 'axios';
 
 interface CardProps {
     name: string;
@@ -8,12 +8,24 @@ interface CardProps {
     id: string;
     isAdmin: boolean;
     timing: number;
+    users: {
+        _id: string,
+        name: string,
+        data: Object,
+        date: Date,
+    }[];
+    setUsers: Function;
 }
 
-const Card = ({ name, date, id, isAdmin, timing }: CardProps) => {
+const Card = ({ name, date, id, isAdmin, timing, users, setUsers }: CardProps) => {
 
     const handleDeleteUser = async () => {
-        await api.delete(`/${id}`);
+        await axios.delete(`/api/${id}`);
+
+        let newUsers = [...users];
+        newUsers = newUsers.filter(user => user["_id"] !== id);
+
+        setUsers(newUsers);
     }
 
     return (

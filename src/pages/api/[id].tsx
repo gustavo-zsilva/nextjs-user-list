@@ -4,9 +4,9 @@ import mongoose from 'mongoose';
 import connectToMongo from '../../database/connection';
 import UserSchema from '../../database/models/UserModel';
 
-connectToMongo();
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+
+    connectToMongo(process.env.DATABASE_URL);
 
     const {
         query: { id },
@@ -17,8 +17,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         User = mongoose.model('User');
-    } catch {
-        User = mongoose.model('User', UserSchema)
+    } catch (err) {
+        User = mongoose.model('User', UserSchema);
     }
 
     switch (method) {

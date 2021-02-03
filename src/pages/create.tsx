@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -8,7 +8,7 @@ import { Container, Input, Label, Form, SubmitButton } from '../styles/create';
 
 import Header from '../components/Header';
 
-import api from '../services/api';
+import axios from 'axios';
 
 const Create = ({ userData }) => {
 
@@ -16,11 +16,11 @@ const Create = ({ userData }) => {
 
     const [name, setName] = useState('');
 
-    const handleFormSubmit = async (e) => {
+    const handleFormSubmit = async (event: FormEvent) => {
 
-        e.preventDefault();
+        event.preventDefault();
 
-        await api.post('', {
+        await axios.post('/api', {
             name,
             data: {...userData}
         })
@@ -58,8 +58,8 @@ const Create = ({ userData }) => {
 }
 
 export async function getStaticProps() {
-    const response = await fetch('http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,isp,proxy,query');
-    const userData = await response.json();
+    const response = await axios.get('http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon,isp,proxy,query');
+    const userData = await response.data;
 
     return {
         props: {

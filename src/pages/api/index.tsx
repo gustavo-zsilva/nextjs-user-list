@@ -1,19 +1,21 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NowRequest, NowResponse } from '@vercel/node';
 import mongoose from 'mongoose';
 
 import connectToMongo from '../../database/connection';
 import UserSchema from '../../database/models/UserModel';
 
-connectToMongo();
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NowRequest, res: NowResponse) => {
+
+    connectToMongo(process.env.DATABASE_URL);
+
     const { method, body } = req;
 
     let User;
 
     try {
         User = mongoose.model('User');
-    } catch {
+    } catch (err) {
         User = mongoose.model('User', UserSchema);
     }
 

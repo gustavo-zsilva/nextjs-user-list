@@ -1,21 +1,23 @@
 import mongoose from 'mongoose';
 require('dotenv').config()
 
-let mongoConnection = 0;
+let cachedDb = null;
 
-function connectToMongo() {
+function connectToMongo(uri: string) {
+    if (cachedDb) {
+        return cachedDb;
+    };
 
-    if (mongoConnection > 0) return;
-
-    mongoose.connect(process.env.DATABASE_URL, {
+    mongoose.connect(uri, {
         useFindAndModify: true,
         useUnifiedTopology: true,
         useNewUrlParser: true
     })
 
     const db = mongoose.connection;
-    mongoConnection = db.readyState;
+    cachedDb = db;
     
+    return db;
 }
 
 export default connectToMongo;

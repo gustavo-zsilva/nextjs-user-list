@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import Link from 'next/link';
 import Head from 'next/head';
 
-import api from '../services/api';
+import axios from 'axios';
 
 const Index = (props: any) => {
 
@@ -16,7 +16,9 @@ const Index = (props: any) => {
     const [isAdmin, setIsAdmin] = useState(false);
 
     const handleDeleteAll = async () => {
-        await api.delete('');
+        await axios.delete('/api');
+
+        setUsers([]);
     }
 
     useEffect(() => {
@@ -53,6 +55,8 @@ const Index = (props: any) => {
                                     date={user.date}
                                     id={user['_id']}
                                     timing={index}
+                                    users={users}
+                                    setUsers={setUsers}
                                 />
                             )
                         })
@@ -73,13 +77,13 @@ const Index = (props: any) => {
     );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
 
-    const response = api.get('');
-    const data = (await response).data.data;
+    const response = await axios.get('http://localhost:3000/api');
+    const data = await response.data.data;
 
-    const ipResponse = await fetch('http://ip-api.com/json/?fields=query');
-    const { query } = await ipResponse.json();
+    const ipResponse = await axios.get('http://ip-api.com/json/?fields=query');
+    const { query } = await ipResponse.data;
 
     const ADMIN_IP = process.env.ADMIN_IP;
 
